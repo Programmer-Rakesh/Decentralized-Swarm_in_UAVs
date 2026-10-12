@@ -1,5 +1,11 @@
 # Decentralized UAV Swarm GCS | Multi-Agent Drone Coordination
 
+<p align="center">
+  <img src="Media/image.png" width="48%" alt="Ground Control Station">
+  &nbsp;
+  <img src="Media/gazebo.png" width="48%" alt="UAV Swarm Agent Interface">
+</p>
+
 ---
 
 ## 📌 Project Overview
