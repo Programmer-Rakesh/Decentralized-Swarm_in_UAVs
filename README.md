@@ -89,159 +89,102 @@ This simulation serves as a foundation for evaluating and improving the coordina
 
 ## 🧠 Swarm Agent Algorithms and Coordination Methods
 
-The swarm agents use a sequence of assignment, coordination, and control methods. The following describes the approaches used in the current agent logic; these should not be confused with more advanced algorithms planned for future development.
+The swarm agents use a sequence of coordination methods to assign formation positions, coordinate movement, synchronize headings, and maintain formation during flight.
 
-### 1. Formation-Slot Assignment — Permutation-Based Minimum-Cost Search
+### 1. Formation-Slot Assignment — Permutation-Based Search
 
-The first stage assigns UAVs to formation slots.
+**Why is it used?**
 
-The assignment process evaluates possible UAV-to-slot mappings using a cost based on the distance between a UAV and a candidate slot. The objective is to find an assignment with a low total cost.
+When multiple UAVs need to fly in a formation, each UAV must be assigned a specific position, or slot, within that formation.
 
-A simplified assignment objective is:
+**How does it work?**
 
-\[
-J = \sum_{i=1}^{N} d_{i,\pi(i)}
-\]
+The system evaluates different possible assignments of UAVs to formation slots and compares their total assignment costs. It then selects a low-cost assignment based on the evaluated possibilities.
 
-Where:
-
-- \(N\) is the number of UAVs.
-- \(d_{i,j}\) is the assignment cost between UAV \(i\) and slot \(j\).
-- \(\pi(i)\) identifies the slot assigned to UAV \(i\).
-- \(J\) is the total assignment cost.
-
-The permutation-based search evaluates candidate assignments to identify a low-cost mapping.
-
-**Important:** This is a permutation-based assignment approach, not the Hungarian algorithm, unless the implementation is subsequently replaced with that algorithm.
+This helps organise UAVs into the desired formation while reducing unnecessary movement during assignment.
 
 ### 2. Neighbour-Based Reference Coordination
 
-After assignment, agents use neighbouring-agent information to coordinate their reference states.
+**Why is it used?**
 
-A simplified neighbour-averaging operation is:
+Individual UAVs need reference information to coordinate their movement with other agents in the swarm.
 
-\[
-\bar{x}_i =
-\frac{1}{|\mathcal{N}_i|}
-\sum_{j \in \mathcal{N}_i} x_j
-\]
+**How does it work?**
 
-Where:
+Each agent uses information from its neighbouring agents to calculate or update its movement reference. This information helps coordinate reference states and waypoint progression across the swarm.
 
-- \(x_j\) is the reference state of neighbour \(j\).
-- \(\mathcal{N}_i\) is the neighbour set of agent \(i\).
-- \(\bar{x}_i\) is the average reference state of the neighbours.
-
-The averaged information can support reference coordination and waypoint progression.
-
-This should be understood as neighbour-based averaging, not necessarily a complete graph-Laplacian consensus algorithm.
+The objective is to achieve coordinated movement through interactions between agents rather than relying entirely on a single central controller for every coordination decision.
 
 ### 3. Circular-Mean Heading Coordination
 
-Heading angles require special treatment because they wrap around at \(360^\circ\).
+**Why is it used?**
 
-For example, the arithmetic average of \(359^\circ\) and \(1^\circ\) is \(180^\circ\), even though the headings are almost identical.
+UAV headings are angular values, so directly averaging them can produce incorrect results near the 0°/360° boundary.
 
-The circular mean avoids this problem by averaging the sine and cosine components:
+For example, headings of 359° and 1° are almost identical, even though their ordinary arithmetic average is 180°.
 
-\[
-\bar{c} = \frac{1}{N}\sum_{i=1}^{N}\cos(\psi_i)
-\]
+**How does it work?**
 
-\[
-\bar{s} = \frac{1}{N}\sum_{i=1}^{N}\sin(\psi_i)
-\]
-
-The mean heading is then calculated as:
-
-\[
-\bar{\psi} = \operatorname{atan2}(\bar{s},\bar{c})
-\]
-
-Where:
-
-- \(\psi_i\) is the heading of agent \(i\).
-- \(\bar{c}\) and \(\bar{s}\) are the averaged cosine and sine components.
-- \(\bar{\psi}\) is the resulting circular-mean heading.
-
-This method provides a more meaningful average heading when angles lie on opposite sides of the \(0^\circ/360^\circ\) boundary.
+The system calculates a circular mean of the relevant heading angles. This produces a more meaningful average heading and helps agents coordinate their direction of movement.
 
 ### 4. Formation-Error-Based Reference-Speed Scaling
 
-The system uses formation error to adjust the reference movement speed.
+**Why is it used?**
 
-A formation-error measure can be represented as:
+During formation movement, individual UAVs may deviate from their desired positions. If the formation continues moving at a fixed reference speed, these deviations may become more difficult to correct.
 
-\[
-e_f = \|\mathbf{p}_i-\mathbf{p}_{i,\mathrm{desired}}\|
-\]
+**How does it work?**
 
-Where:
+The system monitors formation-position errors and uses them to adjust the reference movement speed according to the implemented scaling rule.
 
-- \(\mathbf{p}_i\) is the position of UAV \(i\).
-- \(\mathbf{p}_{i,\mathrm{desired}}\) is its desired formation position.
-- \(e_f\) is the positional formation error.
-
-The reference speed is adjusted using a heuristic based on the formation error.
-
-Conceptually:
-
-\[
-v_{\mathrm{ref}} = f(e_f)
-\]
-
-The function \(f\) represents the implemented speed-scaling rule. Its exact equation depends on the code.
-
-The purpose is to regulate reference movement according to formation behaviour rather than maintaining a fixed reference speed under every condition.
+This helps balance formation movement with the need to reduce positional errors.
 
 ### 5. Turn-Rate Coordination and Formation-Rotation Compensation
 
-When a formation changes heading, its slots rotate around the formation reference point.
+**Why is it used?**
 
-For a rigid formation rotating with angular velocity \(\boldsymbol{\omega}\), the rotational velocity contribution of a slot is:
+When a moving formation changes direction, its individual slots also need to move around the formation's reference point.
 
-\[
-\mathbf{v}_{\mathrm{rot},i}
-=
-\boldsymbol{\omega}
-\times
-\mathbf{r}_i
-\]
+Without accounting for this rotational movement, UAVs may struggle to maintain their relative positions during turns.
 
-Where:
+**How does it work?**
 
-- \(\boldsymbol{\omega}\) is the formation's angular-velocity vector.
-- \(\mathbf{r}_i\) is the slot position relative to the formation reference point.
-- \(\mathbf{v}_{\mathrm{rot},i}\) is the rotational velocity contribution.
+The coordination logic accounts for formation heading changes and turn-rate information when updating movement references.
 
-This relationship explains the kinematic compensation needed when formation slots rotate.
-
-The current implementation should be described as turn-rate coordination and formation-turn compensation to the extent that these terms are represented in the actual agent logic.
-
-The equation above expresses the underlying kinematic relationship; it does not, by itself, establish that the full vector equation is implemented in the code.
+This helps the agents coordinate their movement during formation turns and maintain the intended formation geometry.
 
 ### 6. PI-Like Formation-Slot Control
 
-The agent logic also uses a PI-like correction approach to reduce the error between a UAV's actual and desired formation positions.
+**Why is it used?**
 
-A conventional PI controller has the form:
+Even when formation references are coordinated, individual UAVs may not remain exactly at their assigned positions.
 
-\[
-u(t) = K_p e(t) + K_i \int_0^t e(\tau)\,d\tau
-\]
+A correction mechanism is needed to reduce the difference between each UAV's actual position and its desired formation slot.
 
-Where:
+**How does it work?**
 
-- \(e(t)\) is the formation-slot error.
-- \(K_p\) is the proportional gain.
-- \(K_i\) is the integral gain.
-- \(u(t)\) is the resulting control correction.
+The controller uses formation-position error to generate corrective adjustments. Its proportional component responds to the current error, while its integral component, if implemented, accounts for accumulated error over time.
 
-The proportional component responds to the current error, while the integral component accumulates error over time.
-
-This equation describes a conventional PI controller. The exact controller structure and gains should be taken from the implementation rather than assumed from the term "PI-like."
+This helps individual agents correct their positions and maintain the desired formation.
 
 ---
+
+### 🔄 Overall Coordination Sequence
+
+The coordination process can be summarised as follows:
+
+1. **Assign formation slots:** Determine which UAV should occupy each formation position.
+2. **Coordinate reference states:** Use neighbouring-agent information to support coordinated movement.
+3. **Synchronize headings:** Calculate a meaningful average heading for directional coordination.
+4. **Adjust reference speed:** Use formation errors to regulate reference movement.
+5. **Coordinate turns:** Account for formation rotation during heading changes.
+6. **Correct formation errors:** Adjust individual UAV movement to reduce deviations from assigned slots.
+
+Together, these methods provide a framework for experimenting with multi-UAV formation management and decentralized coordination in simulation.
+
+> **Development note:** These descriptions represent the intended roles of the coordination methods. Their exact behaviour depends on the current implementation of the swarm agents.
+
+--
 
 ## 🔄 Coordination Pipeline
 
