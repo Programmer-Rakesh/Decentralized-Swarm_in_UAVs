@@ -313,13 +313,3 @@ These are potential future improvements and should not be interpreted as already
 https://youtu.be/cAJDP-TjUQA
 
 > **Note:** The source code has not been made publicly available because the project is currently under active development. Selected implementation details have been omitted to protect the project's intellectual property. Further updates may be shared as development progresses.
-
-
-## 👨‍💻 Author
-
-**Rakesh Roy**  
-B.Tech — Electronics and Communication Engineering
-
-Interests: UAV Systems • Robotics • Embedded Systems • Autonomous Navigation • Multi-Agent Coordination
-
----
