@@ -62,9 +62,10 @@ The long-term objective is to develop a modular platform for experimenting with 
 <!-- Replace with a GitHub-supported video link or an animated GIF -->
 
 <p align="center">
-  <a href="Media/swarm_simulation.mp4">
-    <img src="Media/Drone.mp4" width="900" alt="UAV Swarm Simulation in Gazebo">
-  </a>
+  <video width="900" controls>
+    <source src="Media/Drone.mp4" type="video/mp4">
+    Your browser does not support embedded videos.
+  </video>
 </p>
 
 <p align="center">
