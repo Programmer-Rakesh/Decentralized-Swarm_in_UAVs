@@ -156,7 +156,7 @@ This helps balance formation movement with the need to reduce positional errors.
 
 <p align="center">
   <b>Formation Error</b>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <b>Formation Error After Correction</b>
 </p>
 
