@@ -161,9 +161,6 @@ Future development may explore:
 **Watch the simulation:**  
 https://youtu.be/cAJDP-TjUQA
 
-**Source code:**  
-https://github.com/Programmer-Rakesh/Decentralized-Swarm_in_UAVs
-
 ---
 
 ## 👨‍💻 Author
