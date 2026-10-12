@@ -1,8 +1,5 @@
 # Decentralized UAV Swarm GCS | Multi-Agent Drone Coordination
 
-**Individual R&D Project — Rakesh Roy**  
-B.Tech ECE | UAV Systems • Robotics • Autonomous Systems • Embedded Systems
-
 ---
 
 ## 📌 Project Overview
