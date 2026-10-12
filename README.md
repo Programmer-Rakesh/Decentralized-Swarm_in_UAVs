@@ -3,7 +3,7 @@
 <p align="center">
   <img src="Media/image.png" width="48%" alt="Ground Control Station">
   &nbsp;
-  <img src="Media/" width="48%" alt="UAV Swarm Agent Interface">
+  <img src="Media/gazebo.png" width="48%" alt="UAV Swarm Agent Interface">
 </p>
 
 ---
