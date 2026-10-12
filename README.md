@@ -187,7 +187,7 @@ Together, these methods provide a framework for experimenting with multi-UAV for
 
 > **Development note:** These descriptions represent the intended roles of the coordination methods. Their exact behaviour depends on the current implementation of the swarm agents.
 
---
+---
 
 ## 🔄 Coordination Pipeline
 
