@@ -11,9 +11,9 @@ This project focuses on developing a **decentralized multi-UAV swarm coordinatio
 
 The system is being developed using **ROS 2, Gazebo, ArduPilot SITL, and MAVLink**, providing a simulation environment for experimenting with multi-drone coordination and formation control.
 
-Unlike a conventional ground control station (GCS) that primarily focuses on individual vehicle monitoring and control, this project explores how multiple UAV agents can coordinate their reference states, maintain assigned formation slots, and respond to changes in formation geometry through distributed coordination mechanisms.
+Unlike a conventional Ground Control Station (GCS) that primarily focuses on individual vehicle monitoring and control, this project explores how multiple UAV agents can coordinate their reference states, maintain assigned formation slots, and respond to changes in formation geometry through distributed coordination mechanisms.
 
-The long-term objective is to develop a modular platform for researching decentralized multi-agent systems, cooperative UAV navigation, and autonomous swarm behaviour.
+The long-term objective is to develop a modular platform for experimenting with decentralized multi-agent systems, cooperative UAV navigation, and autonomous swarm behaviour.
 
 ---
 
@@ -56,22 +56,26 @@ The long-term objective is to develop a modular platform for researching decentr
 ### 3. Multi-UAV Simulation in Gazebo
 
 <p align="center">
-  <a href="Media/Drone.mp4">
-    ▶️ Watch the Multi-UAV Swarm Simulation
+  <a href="https://youtu.be/cAJDP-TjUQA">
+    <img src="https://img.youtube.com/vi/cAJDP-TjUQA/maxresdefault.jpg"
+         width="900"
+         alt="Watch the Decentralized UAV Swarm Simulation">
   </a>
+</p>
+
+<p align="center">
+  <b>▶️ <a href="https://youtu.be/cAJDP-TjUQA">Watch the Multi-UAV Swarm Simulation on YouTube</a></b>
 </p>
 
 <p align="center">
   <i>Multi-UAV simulation using Gazebo, ArduPilot SITL, and MAVLink.</i>
 </p>
 
-> **Note:** The video is stored in the repository. Click the link above to open it on GitHub. For inline playback directly within the README, consider using a GitHub-supported video attachment URL.
-
 ---
 
 ## 🧩 System Architecture
 
-The system integrates the simulation environment, vehicle communication layer, Ground Control Station, and individual swarm agents.
+The system integrates the Ground Control Station, simulated UAVs, individual swarm agents, and the simulation environment.
 
 ### High-Level Architecture
 
@@ -97,29 +101,76 @@ The system integrates the simulation environment, vehicle communication layer, G
                   │                             │
                   └──────────────┬──────────────┘
                                  │
-                      Additional UAV Agents
+                       Additional UAV Agents
                                  │
-                       Gazebo Simulation
+                        Gazebo Simulation
 ```
+
+> **Note:** This is a conceptual high-level architecture. Adjust the communication arrows to match the actual connections implemented in your system.
+
+---
+
+## ⚙️ Coordination and Control
+
+The project explores multiple mechanisms for multi-UAV coordination, including:
+
+- **Formation-slot assignment:** Assigning UAVs to formation positions.
+- **Reference-state coordination:** Coordinating movement references between agents.
+- **Heading coordination:** Maintaining coordinated heading behaviour.
+- **Formation-error monitoring:** Evaluating deviations from assigned formation positions.
+- **Adaptive reference-speed scaling:** Adjusting reference movement according to formation error.
+- **Turn coordination:** Accounting for formation rotation during heading changes.
+- **Waypoint progression:** Coordinating movement through predefined reference points.
+
+These mechanisms are being developed and evaluated as part of the ongoing R&D work.
 
 ---
 
 ## 🛠️ Technology Stack
 
-- **ROS 2 Humble** — Robotics middleware
-- **Gazebo** — UAV simulation environment
-- **ArduPilot SITL** — Software-in-the-loop flight simulation
-- **MAVLink** — UAV telemetry and command communication
-- **Python** — Agent logic, coordination, and supporting tools
+| Technology | Purpose |
+|---|---|
+| ROS 2 Humble | Robotics middleware |
+| Gazebo | Simulation environment |
+| ArduPilot SITL | Software-in-the-loop flight simulation |
+| MAVLink | UAV telemetry and command communication |
+| Python | Agent logic and supporting tools |
+| UDP | Network communication between software components |
 
 ---
 
 ## 🚧 Development Status
 
-This is an ongoing individual R&D project.
+This is an ongoing individual R&D project focused on decentralized multi-UAV coordination and simulation.
 
-Current development focuses on multi-UAV simulation, swarm-agent coordination, formation management, and GCS integration. The system will continue to evolve as coordination mechanisms, control strategies, and autonomous behaviours are tested and refined.
+Current development focuses on swarm-agent coordination, formation management, simulation integration, and GCS functionality.
 
-Future improvements may include more advanced distributed coordination algorithms, improved formation control, collision avoidance, and cooperative navigation.
+Future development may explore:
+
+- Advanced distributed coordination algorithms
+- Improved formation-control strategies
+- Inter-UAV collision avoidance
+- Cooperative navigation
+- Scalable multi-agent simulation
+- Integration with real UAV hardware
+
+---
+
+## 🎥 Project Demonstration
+
+**Watch the simulation:**  
+https://youtu.be/cAJDP-TjUQA
+
+**Source code:**  
+https://github.com/Programmer-Rakesh/Decentralized-Swarm_in_UAVs
+
+---
+
+## 👨‍💻 Author
+
+**Rakesh Roy**  
+B.Tech — Electronics and Communication Engineering (ECE)
+
+Interested in UAV systems, robotics, embedded systems, autonomous navigation, and multi-agent coordination.
 
 ---
