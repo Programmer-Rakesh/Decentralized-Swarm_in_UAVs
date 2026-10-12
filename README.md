@@ -141,6 +141,21 @@ The system monitors formation-position errors and uses them to adjust the refere
 
 This helps balance formation movement with the need to reduce positional errors.
 
+## 📊 Formation Error Analysis
+
+<p align="center">
+  <img src="Media/left.png" width="49%" alt="Formation Error Before Correction">
+  <img src="Media/right.png" width="49%" alt="Formation Error After Correction">
+</p>
+
+<p align="center">
+  <b>Formation Error</b>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <b>Formation Error After Correction</b>
+</p>
+
+The graphs illustrate formation error before and after correction, showing how the formation-control process helps reduce deviations from the desired UAV positions.
+
 ### 5. Turn-Rate Coordination and Formation-Rotation Compensation
 
 **Why is it used?**
