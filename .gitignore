@@ -1,0 +1,6 @@
+__pycache__/
+*.bak*
+mav.tlog
+mav.tlog.raw
+*/eeprom.bin
+*/terrain/
