@@ -310,10 +310,7 @@ These are potential future improvements and should not be interpreted as already
 **Multi-UAV Swarm Simulation:**  
 https://youtu.be/cAJDP-TjUQA
 
-## 💻 Source Code
-
-**GitHub Repository:**  
-https://github.com/Programmer-Rakesh/Decentralized-Swarm_in_UAVs
+> **Note:** The source code has not been made publicly available because the project is currently under active development. Selected implementation details have been omitted to protect the project's intellectual property. Further updates may be shared as development progresses.
 
 ---
 
