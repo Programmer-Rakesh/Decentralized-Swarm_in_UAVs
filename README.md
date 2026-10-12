@@ -246,7 +246,7 @@ The overall process can be understood as the following sequence:
                        ▼
         ┌─────────────────────────────┐
         │ 6. Formation-Slot Correction│
-        │ PI-Like Control              │
+        │ PI-Like Control             │
         └──────────────┬──────────────┘
                        │
                        ▼
