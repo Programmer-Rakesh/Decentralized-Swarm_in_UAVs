@@ -1,11 +1,21 @@
-
 # Decentralized UAV Swarm GCS | Multi-Agent Drone Coordination
 
-<p align="center">
-  <img src="Media/image.png" width="48%" alt="Ground Control Station">
-  &nbsp;
-  <img src="Media/image1.png" width="41%" alt="UAV Swarm Agent Interface">
-</p>
+<table align="center">
+  <tr>
+    <td width="52%" valign="middle">
+      <h3>🚁 Project Snapshot</h3>
+      <p>
+        📅 <b>Started:</b> Month YYYY<br><br>
+        🎓 <b>Mentor:</b> Mentor Name<br><br>
+        🎯 <b>Outcome:</b> Multiple simulated drones that talk to each other and fly as a swarm, all controlled from one custom GCS<br><br>
+        🧰 <b>Built with:</b> ROS 2 Humble · Gazebo · ArduPilot SITL · MAVLink
+      </p>
+    </td>
+    <td width="48%" align="center" valign="middle">
+      <img src="Media/image1.png" alt="UAV Swarm">
+    </td>
+  </tr>
+</table>
 
 ---
 
