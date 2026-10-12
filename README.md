@@ -170,6 +170,7 @@ The controller uses formation-position error to generate corrective adjustments.
 
 This helps individual agents correct their positions and maintain the desired formation.
 
+---
 
 ### 🔄 Overall Coordination Sequence
 
