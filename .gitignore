@@ -4,3 +4,10 @@ mav.tlog
 mav.tlog.raw
 */eeprom.bin
 */terrain/
+gcs5.py
+gcs_odo.py
+gcs_swarm.py
+geoanchor_node.py
+swarm_agent.py
+gcs_ui.py
+Media/
