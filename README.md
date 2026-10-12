@@ -2,13 +2,16 @@
 
 <img src="Media/image1.png" align="right" width="45%" alt="UAV Swarm">
 
-📅 **Started:** Month YYYY
+**Started:** 15 September 2026
 
-🎓 **Mentor:** Mentor Name
+### Outcome: Multiple simulated drones that talk to each other and fly as a swarm, all controlled from one custom GCS
 
-🎯 **Outcome:** Multiple simulated drones that talk to each other and fly as a swarm, all controlled from one custom GCS
+### Built with
 
-🧰 **Built with:** ROS 2 Humble · Gazebo · ArduPilot SITL · MAVLink
+![ROS 2](https://img.shields.io/badge/ROS_2-Humble-22314E?style=for-the-badge&logo=ros&logoColor=white)
+![Gazebo](https://img.shields.io/badge/Gazebo-Simulation-FF6F00?style=for-the-badge)
+![ArduPilot](https://img.shields.io/badge/ArduPilot-SITL-0A5FFF?style=for-the-badge)
+![MAVLink](https://img.shields.io/badge/MAVLink-Protocol-2EA043?style=for-the-badge)
 
 <br clear="right">
 
