@@ -30,7 +30,6 @@ The objective is to develop a modular platform for researching decentralized mul
 - Coordinate reference movement, heading, and waypoint progression.
 - Monitor formation errors and adjust reference speed.
 - Account for formation rotation during heading changes.
-- Evaluate swarm behaviour in a multi-UAV simulation environment.
 
 ---
 
