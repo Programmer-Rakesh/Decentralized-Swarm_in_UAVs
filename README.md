@@ -50,7 +50,7 @@ The long-term objective is to develop a modular platform for experimenting with 
 <!-- Replace with your swarm agent interface image -->
 
 <p align="center">
-  <img src="Media/swarm_agent_interface.png" width="900" alt="Decentralized UAV Swarm Agent Interface">
+  <img src="Media/7_Drones.png" width="900" alt="Decentralized UAV Swarm Agent Interface">
 </p>
 
 <p align="center">
@@ -63,7 +63,7 @@ The long-term objective is to develop a modular platform for experimenting with 
 
 <p align="center">
   <a href="Media/swarm_simulation.mp4">
-    <img src="Media/swarm_simulation_thumbnail.png" width="900" alt="UAV Swarm Simulation in Gazebo">
+    <img src="Media/Drone.mp4" width="900" alt="UAV Swarm Simulation in Gazebo">
   </a>
 </p>
 
