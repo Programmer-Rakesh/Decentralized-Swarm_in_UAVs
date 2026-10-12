@@ -1,0 +1,5 @@
+pymavlink
+tkintermapview
+pillow
+pyserial
+psutil
