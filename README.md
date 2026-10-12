@@ -1,3 +1,4 @@
+
 # Decentralized UAV Swarm GCS | Multi-Agent Drone Coordination
 
 <p align="center">
@@ -20,7 +21,7 @@ The objective is to develop a modular platform for researching decentralized mul
 
 ---
 
-## 🎯 Core Objectives
+## Core Objectives
 
 - Develop a custom Ground Control Station (GCS) for monitoring multiple UAVs.
 - Integrate multiple simulated UAVs using ArduPilot SITL and MAVLink.
@@ -30,7 +31,6 @@ The objective is to develop a modular platform for researching decentralized mul
 - Monitor formation errors and adjust reference speed.
 - Account for formation rotation during heading changes.
 - Evaluate swarm behaviour in a multi-UAV simulation environment.
-- Establish a foundation for future decentralized autonomy research.
 
 ---
 
