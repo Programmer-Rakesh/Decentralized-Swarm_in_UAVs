@@ -1,6 +1,6 @@
 # Decentralized UAV Swarm GCS | Multi-Agent Drone Coordination
 
-<img src="Media/image1.png" align="right" width="48%" alt="UAV Swarm">
+<img src="Media/image1.png" align="right" width="50%" alt="UAV Swarm">
 
 **Started:** 15 September 2026
 
