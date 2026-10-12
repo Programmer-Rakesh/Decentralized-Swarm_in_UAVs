@@ -154,13 +154,11 @@ This helps balance formation movement with the need to reduce positional errors.
   <img src="Media/right.png" width="49%" alt="Formation Error After Correction">
 </p>
 
-<table>
-  <tr>
-    <th align="center">Formation Error</th>
-    <th width="100"></th>
-    <th align="center">Formation Error After Correction</th>
-  </tr>
-</table>
+<p align="center">
+  <b>Formation Error</b>
+  &emsp;&emsp;&emsp;&emsp;&emsp;
+  <b>Formation Error After Correction</b>
+</p>
 
 The graphs illustrate formation error before and after correction, showing how the formation-control process helps reduce deviations from the desired UAV positions.
 
