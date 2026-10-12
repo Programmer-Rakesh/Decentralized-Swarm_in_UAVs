@@ -1,6 +1,6 @@
 # Decentralized UAV Swarm GCS | Multi-Agent Drone Coordination
 
-<img src="Media/image1.png" align="right" width="45%" alt="UAV Swarm">
+<img src="Media/image1.png" align="right" width="48%" alt="UAV Swarm">
 
 **Started:** 15 September 2026
 
@@ -14,8 +14,6 @@
 ![MAVLink](https://img.shields.io/badge/MAVLink-Protocol-2EA043?style=for-the-badge)
 
 <br clear="right">
-
----
 
 ## 📌 Project Overview
 
