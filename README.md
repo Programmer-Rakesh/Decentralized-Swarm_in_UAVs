@@ -38,7 +38,7 @@ The long-term objective is to develop a modular platform for experimenting with 
 <!-- Replace with your GCS interface image -->
 
 <p align="center">
-  <img src="Media/gcs_interface.png" width="900" alt="Decentralized UAV Swarm Ground Control Station">
+  <img src="Media/Gcs" width="900" alt="Decentralized UAV Swarm Ground Control Station">
 </p>
 
 <p align="center">
