@@ -62,10 +62,7 @@ The long-term objective is to develop a modular platform for experimenting with 
 <!-- Replace with a GitHub-supported video link or an animated GIF -->
 
 <p align="center">
-  <video width="900" controls>
-    <source src="Media/Drone.mp4" type="video/mp4">
-    Your browser does not support embedded videos.
-  </video>
+  <video src="https://github.com/Programmer-Rakesh/Decentralized-Swarm_in_UAVs/blob/422968b0375a73750cd1d97b39eae5f69b408816/Media/Drone.mp4" width="900" controls></video>
 </p>
 
 <p align="center">
