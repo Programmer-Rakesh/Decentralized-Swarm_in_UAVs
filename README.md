@@ -49,34 +49,14 @@ The simulation consists of the Ground Control Station (GCS), decentralized swarm
 
 
 
+
 ## 🔄 Simulation Pipeline
 
-```mermaid
-flowchart TB
-    A("User Command in GCS") --> B["Ground Control Station (GCS)"]
-
-    B -->|"Mission Configuration · UDP"| C["Swarm Agents"]
-    C <-->|"Peer Communication · UDP"| C
-
-    C -->|"Flight Commands · MAVLink / Pymavlink"| D["ArduPilot SITL"]
-    D -->|"Vehicle Telemetry · MAVLink"| C
-
-    D <-->|"SITL–Gazebo Integration"| E["Gazebo Simulator"]
-
-    C -->|"Status Reports · UDP"| B
-    B <-->|"Direct Telemetry / Commands · MAVLink"| D
-
-    classDef gcs fill:#dbeafe,stroke:#2563eb,color:#111827,stroke-width:2px,font-size:18px
-    classDef agents fill:#dcfce7,stroke:#16a34a,color:#111827,stroke-width:2px,font-size:18px
-    classDef sitl fill:#fef3c7,stroke:#d97706,color:#111827,stroke-width:2px,font-size:18px
-    classDef gazebo fill:#f3e8ff,stroke:#9333ea,color:#111827,stroke-width:2px,font-size:18px
-
-    class A,B gcs
-    class C agents
-    class D sitl
-    class E gazebo
-
-    linkStyle default stroke:#94a3b8,stroke-width:2px
+<p align="center">
+  <img src="Media/simulation_pipeline.svg"
+       alt="UAV Swarm Simulation Pipeline"
+       width="850">
+</p>
 ```
 
 ### 🚀 How the Pipeline Works
