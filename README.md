@@ -369,9 +369,15 @@ The project combines the GCS, swarm-agent software, ArduPilot SITL vehicles, MAV
 | UDP | Network transport for communication between software components |
 
 
+
 ## 🔄 Swarm Communication Pipeline
 
-![Decentralized UAV Swarm Communication Pipeline](Media/swarm_communication_pipeline.svg)
+<p align="center">
+  <img src="Media/swarm_communication_pipeline.svg"
+       alt="Decentralized UAV Swarm Communication Pipeline"
+       width="100%">
+</p>
+
 
 ## 🚧 Development Status
 
