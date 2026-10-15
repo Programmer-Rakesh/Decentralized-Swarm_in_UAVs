@@ -57,7 +57,7 @@ The simulation consists of the Ground Control Station (GCS), decentralized swarm
        alt="UAV Swarm Simulation Pipeline"
        width="850">
 </p>
-```
+
 
 ### 🚀 How the Pipeline Works
 
