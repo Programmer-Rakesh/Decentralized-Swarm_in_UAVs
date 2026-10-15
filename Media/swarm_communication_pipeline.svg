@@ -1,0 +1,114 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1000" viewBox="0 0 1200 1000">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 Z" fill="#94a3b8"/>
+    </marker>
+    <marker id="blueArrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 Z" fill="#60a5fa"/>
+    </marker>
+    <marker id="greenArrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 Z" fill="#4ade80"/>
+    </marker>
+    <style>
+      .title { font: bold 30px Arial, sans-serif; fill: #f8fafc; text-anchor: middle; }
+      .subtitle { font: 16px Arial, sans-serif; fill: #94a3b8; text-anchor: middle; }
+      .heading { font: bold 20px Arial, sans-serif; fill: #f8fafc; text-anchor: middle; }
+      .body { font: 16px Arial, sans-serif; fill: #e2e8f0; text-anchor: middle; }
+      .small { font: 14px Arial, sans-serif; fill: #cbd5e1; text-anchor: middle; }
+      .label { font: bold 15px Arial, sans-serif; fill: #e2e8f0; text-anchor: middle; }
+      .link { fill: none; stroke: #94a3b8; stroke-width: 2.5; marker-end: url(#arrow); }
+      .radio { fill: none; stroke: #60a5fa; stroke-width: 3; marker-end: url(#blueArrow); }
+      .peer { fill: none; stroke: #4ade80; stroke-width: 2.5; stroke-dasharray: 8 5; marker-start: url(#greenArrow); marker-end: url(#greenArrow); }
+    </style>
+  </defs>
+
+  <rect width="1200" height="1000" rx="18" fill="#0d1117"/>
+
+  <text x="600" y="48" class="title">Decentralized UAV Swarm Communication</text>
+  <text x="600" y="76" class="subtitle">Single telemetry gateway · Distributed coordination · Multi-UAV monitoring</text>
+  <line x1="60" y1="98" x2="1140" y2="98" stroke="#30363d" stroke-width="2"/>
+
+  <!-- Ground Control Station -->
+  <rect x="350" y="120" width="500" height="100" rx="15" fill="#172554" stroke="#60a5fa" stroke-width="2.5"/>
+  <text x="600" y="155" class="heading">GROUND CONTROL STATION</text>
+  <text x="600" y="182" class="body">Mission planning · Formation settings · Live monitoring</text>
+  <text x="600" y="204" class="small">Laptop running the custom GCS application</text>
+
+  <!-- Radio downlink and uplink -->
+  <path d="M470 220 V296" class="radio"/>
+  <path d="M730 296 V220" class="radio"/>
+
+  <rect x="485" y="231" width="230" height="26" rx="6" fill="#172554"/>
+  <text x="600" y="249" class="label">Mission commands ↓</text>
+  <rect x="485" y="266" width="230" height="25" rx="6" fill="#172554"/>
+  <text x="600" y="284" class="label">↑ Aggregated telemetry</text>
+
+  <!-- Telemetry pair -->
+  <rect x="350" y="300" width="500" height="80" rx="12" fill="#1e293b" stroke="#60a5fa" stroke-width="2"/>
+  <text x="600" y="332" class="heading">LONG-RANGE TELEMETRY LINK</text>
+  <text x="600" y="357" class="body">Ground radio ⇄ Airborne radio on Gateway UAV</text>
+
+  <path d="M600 380 V422" class="radio"/>
+  <text x="730" y="405" class="small">Serial / supported data transport</text>
+
+  <!-- Gateway Agent -->
+  <rect x="300" y="426" width="600" height="105" rx="15" fill="#052e2b" stroke="#34d399" stroke-width="2.5"/>
+  <text x="600" y="460" class="heading">UAV 1 · GATEWAY AGENT</text>
+  <text x="600" y="486" class="body">Raspberry Pi · Swarm coordination · Data aggregation</text>
+  <text x="600" y="510" class="small">Collects peer states and forwards swarm data to the GCS</text>
+
+  <!-- Peer network -->
+  <path d="M600 531 V565" class="peer"/>
+  <text x="600" y="555" class="small">UDP/IP · Peer-to-peer network</text>
+
+  <!-- Agent cards -->
+  <rect x="65" y="590" width="320" height="125" rx="13" fill="#142d1e" stroke="#4ade80" stroke-width="2"/>
+  <text x="225" y="625" class="heading">UAV 2 · AGENT</text>
+  <text x="225" y="654" class="body">Raspberry Pi</text>
+  <text x="225" y="679" class="small">Local telemetry + peer state</text>
+  <text x="225" y="701" class="small">Sends state to gateway / peers</text>
+
+  <rect x="440" y="590" width="320" height="125" rx="13" fill="#142d1e" stroke="#4ade80" stroke-width="2"/>
+  <text x="600" y="625" class="heading">UAV 3 · AGENT</text>
+  <text x="600" y="654" class="body">Raspberry Pi</text>
+  <text x="600" y="679" class="small">Local telemetry + peer state</text>
+  <text x="600" y="701" class="small">Sends state to gateway / peers</text>
+
+  <rect x="815" y="590" width="320" height="125" rx="13" fill="#142d1e" stroke="#4ade80" stroke-width="2"/>
+  <text x="975" y="625" class="heading">UAV N · AGENT</text>
+  <text x="975" y="654" class="body">Raspberry Pi</text>
+  <text x="975" y="679" class="small">Local telemetry + peer state</text>
+  <text x="975" y="701" class="small">Sends state to gateway / peers</text>
+
+  <!-- Gateway-to-agent network -->
+  <path d="M600 565 H225 V586" class="peer"/>
+  <path d="M600 565 V586" class="peer"/>
+  <path d="M600 565 H975 V586" class="peer"/>
+
+  <!-- Flight controller layer -->
+  <path d="M225 715 V760" class="link"/>
+  <path d="M600 715 V760" class="link"/>
+  <path d="M975 715 V760" class="link"/>
+
+  <rect x="65" y="764" width="320" height="88" rx="12" fill="#422006" stroke="#fbbf24" stroke-width="2"/>
+  <text x="225" y="796" class="heading">Cube Orange</text>
+  <text x="225" y="822" class="body">Flight control · MAVLink</text>
+  <text x="225" y="842" class="small">Own vehicle's telemetry and setpoints</text>
+
+  <rect x="440" y="764" width="320" height="88" rx="12" fill="#422006" stroke="#fbbf24" stroke-width="2"/>
+  <text x="600" y="796" class="heading">Cube Orange</text>
+  <text x="600" y="822" class="body">Flight control · MAVLink</text>
+  <text x="600" y="842" class="small">Own vehicle's telemetry and setpoints</text>
+
+  <rect x="815" y="764" width="320" height="88" rx="12" fill="#422006" stroke="#fbbf24" stroke-width="2"/>
+  <text x="975" y="796" class="heading">Cube Orange</text>
+  <text x="975" y="822" class="body">Flight control · MAVLink</text>
+  <text x="975" y="842" class="small">Own vehicle's telemetry and setpoints</text>
+
+  <!-- Interface notes -->
+  <rect x="65" y="880" width="1070" height="82" rx="12" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
+  <text x="600" y="906" class="heading">Communication Protocols</text>
+  <text x="600" y="931" class="body">GCS ⇄ Gateway Pi: telemetry radio · Mission + aggregated swarm data</text>
+  <text x="600" y="953" class="body">Pi ⇄ Pi: UDP/IP · Pi ⇄ Cube Orange: UART serial / MAVLink 2</text>
+</svg>
