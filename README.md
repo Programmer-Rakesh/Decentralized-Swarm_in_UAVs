@@ -47,65 +47,33 @@ The simulation consists of the Ground Control Station (GCS), decentralized swarm
 
 - **Gazebo:** The simulation environment that represents the UAVs and their surroundings. Through its integration with ArduPilot SITL, it simulates vehicle movement and provides simulated sensor and state information.
 
-### 🔄 End-to-End Simulation Pipeline
 
-```text
-┌────────────────────────────────────┐
-│       1. Ground Control Station    │
-│                                    │
-│  Select UAVs, formation, altitude, │
-│  speed, and mission waypoints     │
-└─────────────────┬──────────────────┘
-                  │
-                  │ Mission instructions
-                  ▼
-┌────────────────────────────────────┐
-│          2. UDP Swarm Bus          │
-│                                    │
-│  Sends mission data to the         │
-│  selected swarm agents             │
-└─────────────────┬──────────────────┘
-                  │
-          ┌───────┴────────┐
-          ▼                ▼
-┌─────────────────┐ ┌─────────────────┐
-│ 3. Swarm Agent 1│ │ 3. Swarm Agent 2│
-│                 │◄►│                 │
-│ Local control   │ │ Local control   │
-│ and coordination│ │ and coordination│
-└────────┬────────┘ └────────┬────────┘
-         │                   │
-         │ MAVLink           │ MAVLink
-         ▼                   ▼
-┌─────────────────┐ ┌─────────────────┐
-│ 4. ArduPilot    │ │ 4. ArduPilot    │
-│    SITL 1       │ │    SITL 2       │
-│                 │ │                 │
-│ Flight-control  │ │ Flight-control  │
-│ logic           │ │ logic           │
-└────────┬────────┘ └────────┬────────┘
-         │                   │
-         └─────────┬─────────┘
-                   │
-                   ▼
-┌────────────────────────────────────┐
-│          5. Gazebo                 │
-│                                    │
-│  Simulates UAV movement, physics,  │
-│  and the surrounding environment   │
-└─────────────────┬──────────────────┘
-                  │
-                  │ Simulated vehicle state
-                  ▼
-          ArduPilot SITL
-                  │
-                  │ MAVLink telemetry
-                  ▼
-          Individual Agents
-                  │
-                  │ UDP state reports
-                  ▼
-          Ground Control Station
+## 🔄 Simulation Pipeline
+
+```mermaid
+flowchart LR
+    A["User Command<br/>in GCS"] --> B["Ground Control Station<br/>(GCS)"]
+    B -->|"Mission Configuration<br/>UDP"| C["Swarm Agents"]
+
+    C <-->|"Peer Communication<br/>UDP"| C
+
+    C -->|"Flight Commands<br/>MAVLink / Pymavlink"| D["ArduPilot SITL"]
+    D <-->|"Simulation Integration"| E["Gazebo Simulator"]
+
+    D -->|"Vehicle Telemetry<br/>MAVLink"| C
+    C -->|"Status Reports<br/>UDP"| B
+
+    B <-->|"Direct Telemetry / Commands<br/>MAVLink"| D
+
+    classDef gcs fill:#dbeafe,stroke:#2563eb,color:#111827
+    classDef agents fill:#dcfce7,stroke:#16a34a,color:#111827
+    classDef sitl fill:#fef3c7,stroke:#d97706,color:#111827
+    classDef gazebo fill:#f3e8ff,stroke:#9333ea,color:#111827
+
+    class A,B gcs
+    class C agents
+    class D sitl
+    class E gazebo
 ```
 
 ### 🚀 How the Pipeline Works
