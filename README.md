@@ -101,18 +101,6 @@ Vehicle telemetry returns from ArduPilot SITL to the agents over MAVLink. The ag
 
 ---
 
-## Core Objectives
-
-- Develop a custom Ground Control Station (GCS) for monitoring multiple UAVs.
-- Integrate multiple simulated UAVs using ArduPilot SITL and MAVLink.
-- Develop individual swarm agents with coordination capabilities.
-- Assign and maintain formation slots.
-- Coordinate reference movement, heading, and waypoint progression.
-- Monitor formation errors and adjust reference speed.
-- Account for formation rotation during heading changes.
-
----
-
 ## 🖥️ Project Demonstration
 
 ### 1. Ground Control Station (GCS)
