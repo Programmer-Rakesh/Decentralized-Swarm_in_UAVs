@@ -48,32 +48,35 @@ The simulation consists of the Ground Control Station (GCS), decentralized swarm
 - **Gazebo:** The simulation environment that represents the UAVs and their surroundings. Through its integration with ArduPilot SITL, it simulates vehicle movement and provides simulated sensor and state information.
 
 
+
 ## 🔄 Simulation Pipeline
 
 ```mermaid
-flowchart LR
-    A["User Command<br/>in GCS"] --> B["Ground Control Station<br/>(GCS)"]
-    B -->|"Mission Configuration<br/>UDP"| C["Swarm Agents"]
+flowchart TB
+    A("User Command in GCS") --> B["Ground Control Station (GCS)"]
 
-    C <-->|"Peer Communication<br/>UDP"| C
+    B -->|"Mission Configuration · UDP"| C["Swarm Agents"]
+    C <-->|"Peer Communication · UDP"| C
 
-    C -->|"Flight Commands<br/>MAVLink / Pymavlink"| D["ArduPilot SITL"]
-    D <-->|"Simulation Integration"| E["Gazebo Simulator"]
+    C -->|"Flight Commands · MAVLink / Pymavlink"| D["ArduPilot SITL"]
+    D -->|"Vehicle Telemetry · MAVLink"| C
 
-    D -->|"Vehicle Telemetry<br/>MAVLink"| C
-    C -->|"Status Reports<br/>UDP"| B
+    D <-->|"SITL–Gazebo Integration"| E["Gazebo Simulator"]
 
-    B <-->|"Direct Telemetry / Commands<br/>MAVLink"| D
+    C -->|"Status Reports · UDP"| B
+    B <-->|"Direct Telemetry / Commands · MAVLink"| D
 
-    classDef gcs fill:#dbeafe,stroke:#2563eb,color:#111827
-    classDef agents fill:#dcfce7,stroke:#16a34a,color:#111827
-    classDef sitl fill:#fef3c7,stroke:#d97706,color:#111827
-    classDef gazebo fill:#f3e8ff,stroke:#9333ea,color:#111827
+    classDef gcs fill:#dbeafe,stroke:#2563eb,color:#111827,stroke-width:2px,font-size:18px
+    classDef agents fill:#dcfce7,stroke:#16a34a,color:#111827,stroke-width:2px,font-size:18px
+    classDef sitl fill:#fef3c7,stroke:#d97706,color:#111827,stroke-width:2px,font-size:18px
+    classDef gazebo fill:#f3e8ff,stroke:#9333ea,color:#111827,stroke-width:2px,font-size:18px
 
     class A,B gcs
     class C agents
     class D sitl
     class E gazebo
+
+    linkStyle default stroke:#94a3b8,stroke-width:2px
 ```
 
 ### 🚀 How the Pipeline Works
