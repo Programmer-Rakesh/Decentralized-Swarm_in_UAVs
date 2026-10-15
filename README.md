@@ -27,6 +27,129 @@ The objective is to develop a modular platform for researching decentralized mul
 
 ---
 
+## ⚙️ Simulation Pipeline and Communication Flow
+
+The simulation consists of the Ground Control Station (GCS), decentralized swarm agents, ArduPilot SITL, and Gazebo. Each component has a specific role in mission execution, vehicle control, communication, and simulation.
+
+### 🔍 What Are These Components?
+
+- **Ground Control Station (GCS):** The user interface used to select UAVs, configure formation parameters, define routes, start missions, and monitor swarm status.
+
+- **Swarm Agents:** Individual software controllers running separately for each UAV. Each agent processes mission instructions, communicates with neighbouring agents, calculates movement commands, and manages its own vehicle.
+
+- **UDP Swarm Bus:** A communication channel used by the GCS and swarm agents to exchange mission instructions, agent states, formation information, and status updates.
+
+- **MAVLink:** A communication protocol used to exchange telemetry and commands between each swarm agent and its ArduPilot autopilot.
+
+- **Pymavlink:** The Python library used in this implementation to communicate with ArduPilot through MAVLink.
+
+- **ArduPilot SITL:** Software-in-the-loop simulation of the ArduPilot flight controller. It processes commands from the agents and runs the autopilot's flight-control logic without requiring a physical flight controller.
+
+- **Gazebo:** The simulation environment that represents the UAVs and their surroundings. Through its integration with ArduPilot SITL, it simulates vehicle movement and provides simulated sensor and state information.
+
+### 🔄 End-to-End Simulation Pipeline
+
+```text
+┌────────────────────────────────────┐
+│       1. Ground Control Station    │
+│                                    │
+│  Select UAVs, formation, altitude, │
+│  speed, and mission waypoints     │
+└─────────────────┬──────────────────┘
+                  │
+                  │ Mission instructions
+                  ▼
+┌────────────────────────────────────┐
+│          2. UDP Swarm Bus          │
+│                                    │
+│  Sends mission data to the         │
+│  selected swarm agents             │
+└─────────────────┬──────────────────┘
+                  │
+          ┌───────┴────────┐
+          ▼                ▼
+┌─────────────────┐ ┌─────────────────┐
+│ 3. Swarm Agent 1│ │ 3. Swarm Agent 2│
+│                 │◄►│                 │
+│ Local control   │ │ Local control   │
+│ and coordination│ │ and coordination│
+└────────┬────────┘ └────────┬────────┘
+         │                   │
+         │ MAVLink           │ MAVLink
+         ▼                   ▼
+┌─────────────────┐ ┌─────────────────┐
+│ 4. ArduPilot    │ │ 4. ArduPilot    │
+│    SITL 1       │ │    SITL 2       │
+│                 │ │                 │
+│ Flight-control  │ │ Flight-control  │
+│ logic           │ │ logic           │
+└────────┬────────┘ └────────┬────────┘
+         │                   │
+         └─────────┬─────────┘
+                   │
+                   ▼
+┌────────────────────────────────────┐
+│          5. Gazebo                 │
+│                                    │
+│  Simulates UAV movement, physics,  │
+│  and the surrounding environment   │
+└─────────────────┬──────────────────┘
+                  │
+                  │ Simulated vehicle state
+                  ▼
+          ArduPilot SITL
+                  │
+                  │ MAVLink telemetry
+                  ▼
+          Individual Agents
+                  │
+                  │ UDP state reports
+                  ▼
+          Ground Control Station
+```
+
+### 🚀 How the Pipeline Works
+
+**1. Mission configuration in the GCS**
+
+The operator selects the participating UAVs and configures the formation, spacing, target altitude, speed, and route. When the automatic swarm mission is started, the GCS checks agent availability and prepares the mission data.
+
+**2. Mission distribution over UDP**
+
+The GCS sends the mission configuration to the selected agents through the custom UDP swarm bus. If an agent is not running, the GCS attempts to start it and waits for the selected agents to come online before distributing the mission.
+
+**3. Decentralized agent execution**
+
+Each agent receives the mission and independently executes its coordination and control logic. The agents exchange information with one another over UDP to coordinate their formation references, movement, and mission progress.
+
+**4. MAVLink communication with ArduPilot SITL**
+
+Each agent communicates with its own ArduPilot SITL instance using MAVLink through the `pymavlink` library.
+
+The agents send commands such as mode changes, arming, takeoff, and velocity setpoints. They also receive vehicle telemetry, including position, altitude, heading, and flight status.
+
+**5. Vehicle simulation in Gazebo**
+
+ArduPilot SITL processes the commands and interacts with the Gazebo simulation. Gazebo simulates the resulting vehicle movement and environment, allowing the system to be tested without physical UAVs.
+
+**6. Telemetry and monitoring**
+
+Vehicle telemetry returns from ArduPilot SITL to the agents over MAVLink. The agents share their states and coordination information through the UDP swarm bus, allowing the GCS to monitor individual UAVs and overall swarm behaviour.
+
+### 📡 Communication Summary
+
+| Communication link | Technology | Purpose |
+|---|---|---|
+| GCS ↔ Swarm agents | UDP swarm bus | Mission distribution and agent status reporting |
+| Swarm agent ↔ Swarm agent | UDP swarm bus | Peer-state exchange and distributed coordination |
+| Swarm agent ↔ ArduPilot SITL | MAVLink via Pymavlink | Vehicle commands and telemetry |
+| ArduPilot SITL ↔ Gazebo | SITL–Gazebo integration | Simulated vehicle physics and state exchange |
+| GCS ↔ ArduPilot SITL | MAVLink | Direct vehicle telemetry and supported GCS commands |
+
+> **Implementation note:** The supplied agent and GCS code uses a custom UDP bus and Pymavlink; it does not use MAVROS for the communication paths described above. Gazebo does not receive the GCS mission directly—the agents process the mission and send vehicle commands to their respective ArduPilot SITL instances. The precise SITL–Gazebo transport depends on your simulation configuration.
+
+---
+
 ## Core Objectives
 
 - Develop a custom Ground Control Station (GCS) for monitoring multiple UAVs.
