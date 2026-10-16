@@ -162,7 +162,7 @@ Updated agent references and control outputs
 
 ---
 
-## 🧩 System Architecture
+##  System Architecture
 
 ```text
                  ┌──────────────────────────┐
@@ -195,7 +195,7 @@ Updated agent references and control outputs
 
 ---
 
-## 🛠️ Technology Stack
+##  Technology Stack
 
 | Technology | Purpose |
 |---|---|
@@ -231,7 +231,7 @@ These are planned exploration areas, not claims of currently implemented feature
 
 ---
 
-## 🎥 Project Video
+##  Project Video
 
 [▶️ Multi-UAV Swarm Simulation](https://youtu.be/cAJDP-TjUQA)
 
