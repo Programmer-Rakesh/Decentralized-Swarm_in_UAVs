@@ -1,10 +1,12 @@
-# Decentralized UAV Swarm GCS | Multi-Agent Drone Coordination
+from pathlib import Path
 
-<img src="Media/image1.png" align="right" width="50%" alt="UAV Swarm">
+readme = r'''# Decentralized UAV Swarm GCS | Multi-Agent Drone Coordination
+
+<img src="Media/image1.png" align="right" width="42%" alt="UAV Swarm">
 
 **Started:** 15 September 2026
 
-### Outcome: Multiple simulated drones that talk to each other and fly as a swarm, all controlled from one custom GCS
+**Goal:** Coordinate multiple simulated UAVs through individual swarm agents and a custom Ground Control Station (GCS).
 
 ### Built with
 
@@ -15,201 +17,91 @@
 
 <br clear="right">
 
-## 📌 Project Overview
+## 📌 Overview
 
-This project focuses on developing a **decentralized multi-UAV swarm coordination system** integrating simulated UAVs, individual swarm agents, inter-agent coordination, and MAVLink-based communication.
+A multi-UAV simulation project exploring **decentralized coordination, formation management, and cooperative movement**. It combines ROS 2 Humble, Gazebo, ArduPilot SITL, MAVLink, and a custom GCS.
 
-The system uses **ROS 2 Humble, Gazebo, ArduPilot SITL, and MAVLink** to provide an environment for experimenting with multi-drone coordination, formation management, and distributed control.
-
-The project explores how individual UAV agents can coordinate their reference states, maintain assigned formation slots, synchronize heading behaviour, and respond to changes in formation geometry.
-
-The objective is to develop a modular platform for researching decentralized multi-agent systems, cooperative UAV navigation, and autonomous swarm behaviour.
+Each swarm agent manages its own simulated UAV and exchanges state information with other agents. The GCS is used to configure missions and monitor the swarm.
 
 ---
 
-## ⚙️ Simulation Pipeline and Communication Flow
+## ⚙️ Simulation Pipeline
 
-The simulation consists of the Ground Control Station (GCS), decentralized swarm agents, ArduPilot SITL, and Gazebo. Each component has a specific role in mission execution, vehicle control, communication, and simulation.
-
-### 🔍 What Are These Components?
-
-- **Ground Control Station (GCS):** The user interface used to select UAVs, configure formation parameters, define routes, start missions, and monitor swarm status.
-
-- **Swarm Agents:** Individual software controllers running separately for each UAV. Each agent processes mission instructions, communicates with neighbouring agents, calculates movement commands, and manages its own vehicle.
-
-- **UDP Swarm Bus:** A communication channel used by the GCS and swarm agents to exchange mission instructions, agent states, formation information, and status updates.
-
-- **MAVLink:** A communication protocol used to exchange telemetry and commands between each swarm agent and its ArduPilot autopilot.
-
-- **Pymavlink:** The Python library used in this implementation to communicate with ArduPilot through MAVLink.
-
-- **ArduPilot SITL:** Software-in-the-loop simulation of the ArduPilot flight controller. It processes commands from the agents and runs the autopilot's flight-control logic without requiring a physical flight controller.
-
-- **Gazebo:** The simulation environment that represents the UAVs and their surroundings. Through its integration with ArduPilot SITL, it simulates vehicle movement and provides simulated sensor and state information.
-
-
-
-
-## 🔄 Simulation Pipeline
+The system connects the GCS, swarm agents, ArduPilot SITL, and Gazebo.
 
 <p align="center">
-  <img src="Media/simulation_pipeline.svg"
-       alt="UAV Swarm Simulation Pipeline"
-       width="850">
+  <img src="Media/simulation_pipeline.svg" alt="UAV Swarm Simulation Pipeline" width="850">
 </p>
 
+### How it works
 
-### 🚀 How the Pipeline Works
+1. **Configure mission:** Select UAVs and set formation, spacing, altitude, speed, and route in the GCS.
+2. **Distribute mission:** The GCS sends mission data to available agents through the custom UDP swarm bus.
+3. **Coordinate agents:** Agents exchange peer-state information over UDP and update their movement references.
+4. **Control vehicles:** Each agent uses Pymavlink and MAVLink to send commands to its own ArduPilot SITL instance and receive telemetry.
+5. **Simulate flight:** ArduPilot SITL interacts with Gazebo, which simulates vehicle movement and the environment.
+6. **Monitor swarm:** Agent states and vehicle telemetry are used by the GCS to display swarm status.
 
-**1. Mission configuration in the GCS**
+### Communication summary
 
-The operator selects the participating UAVs and configures the formation, spacing, target altitude, speed, and route. When the automatic swarm mission is started, the GCS checks agent availability and prepares the mission data.
-
-**2. Mission distribution over UDP**
-
-The GCS sends the mission configuration to the selected agents through the custom UDP swarm bus. If an agent is not running, the GCS attempts to start it and waits for the selected agents to come online before distributing the mission.
-
-**3. Decentralized agent execution**
-
-Each agent receives the mission and independently executes its coordination and control logic. The agents exchange information with one another over UDP to coordinate their formation references, movement, and mission progress.
-
-**4. MAVLink communication with ArduPilot SITL**
-
-Each agent communicates with its own ArduPilot SITL instance using MAVLink through the `pymavlink` library.
-
-The agents send commands such as mode changes, arming, takeoff, and velocity setpoints. They also receive vehicle telemetry, including position, altitude, heading, and flight status.
-
-**5. Vehicle simulation in Gazebo**
-
-ArduPilot SITL processes the commands and interacts with the Gazebo simulation. Gazebo simulates the resulting vehicle movement and environment, allowing the system to be tested without physical UAVs.
-
-**6. Telemetry and monitoring**
-
-Vehicle telemetry returns from ArduPilot SITL to the agents over MAVLink. The agents share their states and coordination information through the UDP swarm bus, allowing the GCS to monitor individual UAVs and overall swarm behaviour.
-
-### 📡 Communication Summary
-
-| Communication link | Technology | Purpose |
+| Link | Technology | Purpose |
 |---|---|---|
-| GCS ↔ Swarm agents | UDP swarm bus | Mission distribution and agent status reporting |
-| Swarm agent ↔ Swarm agent | UDP swarm bus | Peer-state exchange and distributed coordination |
-| Swarm agent ↔ ArduPilot SITL | MAVLink via Pymavlink | Vehicle commands and telemetry |
-| ArduPilot SITL ↔ Gazebo | SITL–Gazebo integration | Simulated vehicle physics and state exchange |
-| GCS ↔ ArduPilot SITL | MAVLink | Direct vehicle telemetry and supported GCS commands |
+| GCS ↔ swarm agents | Custom UDP swarm bus | Mission distribution and status |
+| Agent ↔ agent | UDP | Peer-state exchange and coordination |
+| Agent ↔ ArduPilot SITL | MAVLink via Pymavlink | Vehicle commands and telemetry |
+| ArduPilot SITL ↔ Gazebo | SITL–Gazebo integration | Simulated vehicle and state exchange |
+| GCS ↔ ArduPilot SITL | MAVLink | Direct telemetry and supported GCS commands |
 
-> **Implementation note:** The supplied agent and GCS code uses a custom UDP bus and Pymavlink; it does not use MAVROS for the communication paths described above. Gazebo does not receive the GCS mission directly—the agents process the mission and send vehicle commands to their respective ArduPilot SITL instances. The precise SITL–Gazebo transport depends on your simulation configuration.
+> **Implementation note:** The described code uses a custom UDP bus and Pymavlink; it does not use MAVROS. The exact SITL–Gazebo transport depends on the simulation configuration.
 
 ---
 
 ## 🖥️ Project Demonstration
 
-### 1. Ground Control Station (GCS)
+### 1. Ground Control Station
 
 <p align="center">
   <img src="Media/Gcs.png" width="900" alt="Decentralized UAV Swarm Ground Control Station">
 </p>
 
-**Ground Control Station — Monitoring and Simulation Management**
+The custom GCS provides mission configuration, swarm monitoring, and simulation management.
 
-The custom GCS provides an interface for monitoring and managing the multi-UAV simulation. It serves as the main interface for observing swarm activity and interacting with the simulation environment.
-
-The GCS and swarm agents form separate components of the overall system, with their communication and responsibilities determined by the implemented software architecture.
-
----
-
-### 2. Decentralized Swarm Agent Interface
+### 2. Swarm Agent Interface
 
 <p align="center">
   <img src="Media/7_Drones.png" width="900" alt="Multi-UAV Swarm Agent Interface">
 </p>
 
-**Individual Agents — Coordination and Formation Management**
-
-The swarm-agent component focuses on coordinating multiple UAVs using individual agent logic.
-
-Each agent works with its vehicle state and assigned formation position. The coordination mechanisms explore reference-state updates, heading alignment, formation-error correction, and coordinated movement.
-
-The objective is to maintain the desired formation while the swarm moves and changes direction.
-
----
+Individual agents manage their vehicle state and formation references, supporting coordinated movement and formation-error correction.
 
 ### 3. Multi-UAV Simulation in Gazebo
 
 <p align="center">
   <a href="https://youtu.be/cAJDP-TjUQA">
-    <img src="https://img.youtube.com/vi/cAJDP-TjUQA/maxresdefault.jpg"
-         width="900"
-         alt="Multi-UAV Swarm Simulation in Gazebo">
+    <img src="https://img.youtube.com/vi/cAJDP-TjUQA/maxresdefault.jpg" width="900" alt="Multi-UAV Swarm Simulation in Gazebo">
   </a>
 </p>
 
 <p align="center">
-  **▶️ [Watch the Full Multi-UAV Swarm Simulation on YouTube](https://youtu.be/cAJDP-TjUQA)**
+  **▶️ [Watch the full simulation on YouTube](https://youtu.be/cAJDP-TjUQA)**
 </p>
-
-**Simulation — Multi-Agent Coordination in Action**
-
-The simulation demonstrates the multi-UAV environment using Gazebo and ArduPilot SITL, with MAVLink supporting vehicle telemetry and command communication.
-
-It provides a test environment for observing vehicle movement, formation behaviour, and interactions between the simulation and swarm-agent software.
-
-This simulation serves as a foundation for evaluating and improving the coordination mechanisms used by the swarm agents.
 
 ---
 
-## 🧠 Swarm Agent Algorithms and Coordination Methods
+## 🧠 Swarm Coordination Methods
 
-The swarm agents use a sequence of coordination methods to assign formation positions, coordinate movement, synchronize headings, and maintain formation during flight.
+The current project explores the following methods. Their exact behaviour depends on the agent implementation.
 
-### 1. Formation-Slot Assignment — Permutation-Based Search
+| Method | Role |
+|---|---|
+| **Permutation-based formation-slot assignment** | Evaluates possible UAV-to-slot assignments and selects a low-cost assignment. |
+| **Neighbour-based reference coordination** | Uses information from neighbouring agents to update movement references. |
+| **Circular-mean heading coordination** | Averages heading angles correctly around the 0°/360° boundary. |
+| **Formation-error-based speed scaling** | Adjusts reference speed in response to formation-position error. |
+| **Turn-rate and rotation compensation** | Accounts for formation rotation while the swarm changes direction. |
+| **PI-like formation-slot control** | Uses position error to generate corrective movement adjustments. |
 
-**Why is it used?**
-
-When multiple UAVs need to fly in a formation, each UAV must be assigned a specific position, or slot, within that formation.
-
-**How does it work?**
-
-The system evaluates different possible assignments of UAVs to formation slots and compares their total assignment costs. It then selects a low-cost assignment based on the evaluated possibilities.
-
-This helps organise UAVs into the desired formation while reducing unnecessary movement during assignment.
-
-### 2. Neighbour-Based Reference Coordination
-
-**Why is it used?**
-
-Individual UAVs need reference information to coordinate their movement with other agents in the swarm.
-
-**How does it work?**
-
-Each agent uses information from its neighbouring agents to calculate or update its movement reference. This information helps coordinate reference states and waypoint progression across the swarm.
-
-The objective is to achieve coordinated movement through interactions between agents rather than relying entirely on a single central controller for every coordination decision.
-
-### 3. Circular-Mean Heading Coordination
-
-**Why is it used?**
-
-UAV headings are angular values, so directly averaging them can produce incorrect results near the 0°/360° boundary.
-
-For example, headings of 359° and 1° are almost identical, even though their ordinary arithmetic average is 180°.
-
-**How does it work?**
-
-The system calculates a circular mean of the relevant heading angles. This produces a more meaningful average heading and helps agents coordinate their direction of movement.
-
-### 4. Formation-Error-Based Reference-Speed Scaling
-
-**Why is it used?**
-
-During formation movement, individual UAVs may deviate from their desired positions. If the formation continues moving at a fixed reference speed, these deviations may become more difficult to correct.
-
-**How does it work?**
-
-The system monitors formation-position errors and uses them to adjust the reference movement speed according to the implemented scaling rule.
-
-This helps balance formation movement with the need to reduce positional errors.
-
-## 📊 Formation Error Analysis
+### Formation error analysis
 
 <p align="center">
   <img src="Media/left.png" width="49%" alt="Formation Error Before Correction">
@@ -217,143 +109,65 @@ This helps balance formation movement with the need to reduce positional errors.
 </p>
 
 <p align="center">
-  <b>Formation Error</b>
-  &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-  <b>Formation Error After Correction</b>
+  <b>Before correction</b>
+  &emsp;&emsp;&emsp;&emsp;
+  <b>After correction</b>
 </p>
 
-The graphs illustrate formation error before and after correction, showing how the formation-control process helps reduce deviations from the desired UAV positions.
+The graphs compare formation error before and after correction.
 
-### 5. Turn-Rate Coordination and Formation-Rotation Compensation
-
-**Why is it used?**
-
-When a moving formation changes direction, its individual slots also need to move around the formation's reference point.
-
-Without accounting for this rotational movement, UAVs may struggle to maintain their relative positions during turns.
-
-**How does it work?**
-
-The coordination logic accounts for formation heading changes and turn-rate information when updating movement references.
-
-This helps the agents coordinate their movement during formation turns and maintain the intended formation geometry.
-
-### 6. PI-Like Formation-Slot Control
-
-**Why is it used?**
-
-Even when formation references are coordinated, individual UAVs may not remain exactly at their assigned positions.
-
-A correction mechanism is needed to reduce the difference between each UAV's actual position and its desired formation slot.
-
-**How does it work?**
-
-The controller uses formation-position error to generate corrective adjustments. Its proportional component responds to the current error, while its integral component, if implemented, accounts for accumulated error over time.
-
-This helps individual agents correct their positions and maintain the desired formation.
-
----
-
-### 🔄 Overall Coordination Sequence
-
-The coordination process can be summarised as follows:
-
-1. **Assign formation slots:** Determine which UAV should occupy each formation position.
-2. **Coordinate reference states:** Use neighbouring-agent information to support coordinated movement.
-3. **Synchronize headings:** Calculate a meaningful average heading for directional coordination.
-4. **Adjust reference speed:** Use formation errors to regulate reference movement.
-5. **Coordinate turns:** Account for formation rotation during heading changes.
-6. **Correct formation errors:** Adjust individual UAV movement to reduce deviations from assigned slots.
-
-Together, these methods provide a framework for experimenting with multi-UAV formation management and decentralized coordination in simulation.
-
-> **Development note:** These descriptions represent the intended roles of the coordination methods. Their exact behaviour depends on the current implementation of the swarm agents.
-
----
-
-## 🔄 Coordination Pipeline
-
-The overall process can be understood as the following sequence:
+### Coordination sequence
 
 ```text
-        ┌─────────────────────────────┐
-        │ 1. Formation-Slot Assignment│
-        │ Permutation-Based Search    │
-        └──────────────┬──────────────┘
-                       │
-                       ▼
-        ┌─────────────────────────────┐
-        │ 2. Neighbour-Based Reference│
-        │ Coordination                │
-        └──────────────┬──────────────┘
-                       │
-                       ▼
-        ┌─────────────────────────────┐
-        │ 3. Circular-Mean Heading    │
-        │ Coordination                │
-        └──────────────┬──────────────┘
-                       │
-                       ▼
-        ┌─────────────────────────────┐
-        │ 4. Formation-Error-Based    │
-        │ Reference-Speed Scaling     │
-        └──────────────┬──────────────┘
-                       │
-                       ▼
-        ┌─────────────────────────────┐
-        │ 5. Turn-Rate Coordination   │
-        │ and Rotation Compensation   │
-        └──────────────┬──────────────┘
-                       │
-                       ▼
-        ┌─────────────────────────────┐
-        │ 6. Formation-Slot Correction│
-        │ PI-Like Control             │
-        └──────────────┬──────────────┘
-                       │
-                       ▼
-        ┌─────────────────────────────┐
-        │ Updated Agent References    │
-        │ and Control Outputs         │
-        └─────────────────────────────┘
+Formation-slot assignment
+          ↓
+Neighbour-based reference coordination
+          ↓
+Circular-mean heading coordination
+          ↓
+Formation-error-based speed scaling
+          ↓
+Turn-rate / rotation compensation
+          ↓
+Formation-slot correction
+          ↓
+Updated agent references and control outputs
 ```
 
-> **Note:** This diagram represents the conceptual sequence of the coordination methods, not necessarily the exact runtime call order. The actual execution order depends on the implementation.
+> **Note:** This is a conceptual sequence; the runtime call order may differ.
 
 ---
 
 ## 🧩 System Architecture
 
-The project combines the GCS, swarm-agent software, ArduPilot SITL vehicles, MAVLink communication, and Gazebo simulation.
-
 ```text
-                ┌──────────────────────────┐
-                │  Ground Control Station  │
-                │          (GCS)           │
-                └────────────┬─────────────┘
-                             │
-                       MAVLink / UDP
-                             │
-               ┌─────────────┴─────────────┐
-               │                           │
-       ┌───────▼────────┐          ┌───────▼────────┐
-       │ ArduPilot SITL │          │ ArduPilot SITL │
-       │   Vehicle 1    │          │   Vehicle 2    │
-       └───────┬────────┘          └───────┬────────┘
-               │                           │
-       ┌───────▼────────┐          ┌───────▼────────┐
-       │  Swarm Agent 1 │◄────────►│  Swarm Agent 2 │
-       │ Agent Logic    │          │ Agent Logic    │
-       └────────────────┘          └────────────────┘
-               │                           │
-               └─────────────┬─────────────┘
-                             │
-                    Additional Agents
-                             │
-                     Gazebo Simulation
+                 ┌──────────────────────────┐
+                 │  Ground Control Station  │
+                 │          (GCS)           │
+                 └────────────┬─────────────┘
+                              │
+                         MAVLink / UDP
+                              │
+                ┌─────────────┴─────────────┐
+                │                           │
+        ┌───────▼────────┐          ┌───────▼────────┐
+        │ ArduPilot SITL │          │ ArduPilot SITL │
+        │   Vehicle 1    │          │   Vehicle 2    │
+        └───────┬────────┘          └───────┬────────┘
+                │                           │
+        ┌───────▼────────┐          ┌───────▼────────┐
+        │  Swarm Agent 1 │◄────────►│  Swarm Agent 2 │
+        │  Agent Logic   │          │  Agent Logic   │
+        └────────────────┘          └────────────────┘
+                │                           │
+                └─────────────┬─────────────┘
+                              │
+                       Additional Agents
+
+                    Gazebo Simulation
 ```
 
-> **Architecture note:** The diagram is conceptual. Ensure that direct agent-to-agent links and GCS connections match the communication paths actually implemented in your project.
+> **Architecture note:** This is a conceptual overview. Refer to the communication table above for the links described by the current implementation.
 
 ---
 
@@ -364,44 +178,42 @@ The project combines the GCS, swarm-agent software, ArduPilot SITL vehicles, MAV
 | ROS 2 Humble | Robotics middleware |
 | Gazebo | UAV simulation environment |
 | ArduPilot SITL | Software-in-the-loop flight simulation |
-| MAVLink | UAV telemetry and command communication |
+| MAVLink / Pymavlink | Vehicle commands and telemetry |
 | Python | Agent logic and supporting software |
-| UDP | Network transport for communication between software components |
+| UDP | Communication between software components |
 
-
+---
 
 ## 🔄 Swarm Communication Pipeline
 
 <p align="center">
-  <img src="Media/swarm_communication_pipeline.svg"
-       alt="Decentralized UAV Swarm Communication Pipeline"
-       width="100%">
+  <img src="Media/swarm_communication_pipeline.svg" alt="Decentralized UAV Swarm Communication Pipeline" width="100%">
 </p>
 
+---
 
 ## 🚧 Development Status
 
-This is an ongoing individual R&D project.
+This is an ongoing individual R&D project focused on multi-UAV simulation, formation management, agent coordination, and GCS integration.
 
-The current development focuses on multi-UAV simulation, formation management, swarm-agent coordination, and GCS integration.
-
-Future development may explore:
-
-- More advanced distributed consensus algorithms
+**Potential future work**
 - Hungarian-algorithm-based formation assignment
-- Improved formation-control strategies
-- Inter-UAV collision avoidance
-- Cooperative navigation
+- Improved distributed coordination and formation control
+- Inter-UAV collision avoidance and cooperative navigation
 - More scalable multi-agent architectures
 - Integration with physical UAV hardware
 
-These are potential future improvements and should not be interpreted as already implemented features.
+These are planned exploration areas, not claims of currently implemented features.
 
 ---
 
 ## 🎥 Project Video
 
-**Multi-UAV Swarm Simulation:**  
-https://youtu.be/cAJDP-TjUQA
+[▶️ Multi-UAV Swarm Simulation](https://youtu.be/cAJDP-TjUQA)
 
-> **Note:** The source code has not been made publicly available because the project is currently under active development. Selected implementation details have been omitted to protect the project's intellectual property. Further updates may be shared as development progresses.
+> **Source code:** The repository's source code is not currently public while development continues. Selected implementation details are omitted to protect project intellectual property.
+'''
+
+out = Path("/mnt/data/README_refined.md")
+out.write_text(readme, encoding="utf-8")
+print(f"Created {out} ({len(readme.splitlines())} lines)")
