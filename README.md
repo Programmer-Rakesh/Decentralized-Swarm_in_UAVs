@@ -101,29 +101,29 @@ The current project explores the following methods. Their exact behaviour depend
 
 ### 📚 Research References
 
-The coordination methods explored in this project are related to established research in distributed control, multi-agent consensus, and formation assignment.
+These open-access papers provide background for the coordination methods explored in this project.
 
-1. **Distributed UAV Formation Control**  
-   Xue, R., Song, J., & Cai, G. (2016). *Distributed formation flight control of multi-UAV system with nonuniform time-delays and jointly connected topologies.*  
-   [Read paper (DOI)](https://doi.org/10.1177/0954410015619446)  
-   **Relevance:** Neighbour-to-neighbour information exchange and distributed formation coordination.
+1. **Distributed UAV Swarm Coordination**  
+   *Distributed coordinated control scheme of UAV swarm based on heterogeneous roles* (2022).  
+   [Read the full paper — Open Access](https://doi.org/10.1016/j.cja.2021.01.014)  
+   **Relevance:** Distributed coordination and formation control for UAV swarms.
 
 2. **Consensus-Based Formation Control**  
-   Seo, J., et al. (2012). *Consensus-based reconfigurable controller design for unmanned aerial vehicle formation flight.*  
-   [Read paper (DOI)](https://doi.org/10.1177/0954410011415157)  
-   **Relevance:** Distributed coordination using local information to maintain a desired formation.
+   *UAV Formation Obstacle Avoidance Control Algorithm Based on Improved Artificial Potential Field and Consensus* (2021).  
+   [Read the full paper — Open Access](https://link.springer.com/article/10.1007/s42405-021-00407-6)  
+   **Relevance:** Neighbour-based coordination and consensus for formation control.
 
 3. **Decentralized Formation and Collision Avoidance**  
    Kuriki, Y., & Namerikawa, T. (2015). *Formation Control with Collision Avoidance for a Multi-UAV System Using Decentralized MPC and Consensus-Based Control.*  
-   [Read paper (DOI)](https://doi.org/10.9746/jcmsi.8.285)  
-   **Relevance:** Background for decentralized formation control and potential future collision-avoidance extensions.
+   [Read the full paper — Open Access](https://doi.org/10.9746/jcmsi.8.285)  
+   **Relevance:** Related approaches to decentralized formation control and collision avoidance.
 
-4. **Optimal Assignment Methods**  
+4. **Assignment Problem — Hungarian Method**  
    Kuhn, H. W. (1955). *The Hungarian Method for the Assignment Problem.*  
-   [Read paper (DOI)](https://doi.org/10.1002/nav.3800020109)  
-   **Relevance:** Foundational work on minimum-cost assignment. The Hungarian method is a possible future alternative to the project's current permutation-based slot assignment.
+   [Read the free PDF](https://www.math.utoronto.ca/mccann/1855/KuhnNRL55.pdf)  
+   **Relevance:** Foundational work on minimum-cost assignment. The paper describes the Hungarian method, which is a potential alternative to the project's permutation-based assignment.
 
-> **Scope:** These publications provide related theoretical foundations and comparison points. They should not be interpreted as evidence that the project implements each paper's complete algorithm or reproduces its reported results.
+> **Note:** These papers are related research, not claims that their complete algorithms have been implemented in this project.
 
 ### Formation error analysis
 
