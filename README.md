@@ -1,4 +1,4 @@
-Decentralized UAV Swarm GCS | Multi-Agent Drone Coordination
+## Decentralized UAV Swarm GCS | Multi-Agent Drone Coordination
 
 <img src="Media/image1.png" align="right" width="42%" alt="UAV Swarm">
 
@@ -23,7 +23,7 @@ Each swarm agent manages its own simulated UAV and exchanges state information w
 
 ---
 
-## ⚙️ Simulation Pipeline
+##  Simulation Pipeline
 
 The system connects the GCS, swarm agents, ArduPilot SITL, and Gazebo.
 
@@ -54,7 +54,7 @@ The system connects the GCS, swarm agents, ArduPilot SITL, and Gazebo.
 
 ---
 
-## 🖥️ Project Demonstration
+##  Project Demonstration
 
 ### 1. Ground Control Station
 
@@ -86,7 +86,7 @@ Individual agents manage their vehicle state and formation references, supportin
 
 ---
 
-## 🧠 Swarm Coordination Methods
+##  Swarm Coordination Methods
 
 The current project explores the following methods. Their exact behaviour depends on the agent implementation.
 
