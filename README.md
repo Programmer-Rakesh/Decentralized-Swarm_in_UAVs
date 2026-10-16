@@ -99,6 +99,32 @@ The current project explores the following methods. Their exact behaviour depend
 | **Turn-rate and rotation compensation** | Accounts for formation rotation while the swarm changes direction. |
 | **PI-like formation-slot control** | Uses position error to generate corrective movement adjustments. |
 
+### 📚 Research References
+
+The coordination methods explored in this project are related to established research in distributed control, multi-agent consensus, and formation assignment.
+
+1. **Distributed UAV Formation Control**  
+   Xue, R., Song, J., & Cai, G. (2016). *Distributed formation flight control of multi-UAV system with nonuniform time-delays and jointly connected topologies.*  
+   [Read paper (DOI)](https://doi.org/10.1177/0954410015619446)  
+   **Relevance:** Neighbour-to-neighbour information exchange and distributed formation coordination.
+
+2. **Consensus-Based Formation Control**  
+   Seo, J., et al. (2012). *Consensus-based reconfigurable controller design for unmanned aerial vehicle formation flight.*  
+   [Read paper (DOI)](https://doi.org/10.1177/0954410011415157)  
+   **Relevance:** Distributed coordination using local information to maintain a desired formation.
+
+3. **Decentralized Formation and Collision Avoidance**  
+   Kuriki, Y., & Namerikawa, T. (2015). *Formation Control with Collision Avoidance for a Multi-UAV System Using Decentralized MPC and Consensus-Based Control.*  
+   [Read paper (DOI)](https://doi.org/10.9746/jcmsi.8.285)  
+   **Relevance:** Background for decentralized formation control and potential future collision-avoidance extensions.
+
+4. **Optimal Assignment Methods**  
+   Kuhn, H. W. (1955). *The Hungarian Method for the Assignment Problem.*  
+   [Read paper (DOI)](https://doi.org/10.1002/nav.3800020109)  
+   **Relevance:** Foundational work on minimum-cost assignment. The Hungarian method is a possible future alternative to the project's current permutation-based slot assignment.
+
+> **Scope:** These publications provide related theoretical foundations and comparison points. They should not be interpreted as evidence that the project implements each paper's complete algorithm or reproduces its reported results.
+
 ### Formation error analysis
 
 <p align="center">
