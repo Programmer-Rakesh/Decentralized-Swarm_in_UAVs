@@ -1,6 +1,4 @@
-from pathlib import Path
-
-readme = r'''# Decentralized UAV Swarm GCS | Multi-Agent Drone Coordination
+Decentralized UAV Swarm GCS | Multi-Agent Drone Coordination
 
 <img src="Media/image1.png" align="right" width="42%" alt="UAV Swarm">
 
