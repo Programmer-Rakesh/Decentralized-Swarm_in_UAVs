@@ -237,7 +237,3 @@ These are planned exploration areas, not claims of currently implemented feature
 
 > **Source code:** The repository's source code is not currently public while development continues. Selected implementation details are omitted to protect project intellectual property.
 '''
-
-out = Path("/mnt/data/README_refined.md")
-out.write_text(readme, encoding="utf-8")
-print(f"Created {out} ({len(readme.splitlines())} lines)")
